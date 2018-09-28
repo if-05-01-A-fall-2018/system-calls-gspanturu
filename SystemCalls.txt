@@ -8,11 +8,11 @@
   Arguments: const char* pathname, struct stat *buf
 
 
--kill:	used to send a signal to another process
+-kill:	is used to send a signal to a running process and terminate it
   Arguments: pid_t pid, int sig
 
 
--mmap:	used to map files or devices into memory.
+-mmap:	creates a new mapping in the virtual address space of the calling process. 
   Arguments: void *addr, size_t length, int prot, int flags, int fd, off_t offset
 
 
@@ -21,19 +21,18 @@
 
 
 -waitpid: wait for process to change state
-  Arguments: pid_t pid, int *wsstatus, int options
+  Arguments: pid_t pid, int *status, int options
 
 
 SYSTEM CALL FAILS:
 
-- fork: will fail if maximum processes are reached or memory is full
-- exec: will fail if the process image is invalid, false filename
-- unlink: will fail if the file is already unlinked/not found or the file is used by another process or not allowed to delete because of its security.
-- read: will fail if the file doesn't exist, or because of no  premissions. or a DIR or simly an I/O error not caused by the system call
-  itself.
-- mount: will fail if read only DIR, corrupt files, wrong path or source already mounted.
-- chmod: will fail if used false filepath, false flags
-- kill: will fail if invalid process ID is used
+- fork: will fail to allocate the kernel structures if there's not enough memory
+- exec:  all of the functions associated with exec may fail and set errno  (error number)
+- unlink: The file pathname can't be unlinked because it is being used by the system or another process or can't unlink if the pathname refers to a directory
+- read: will fail if fd(file descriptor) is not valid or if buf (buffer) is outside the accessible address space
+- mount: will fail if the source is already  mounted or can't be mounted because the target is still busy (e.g. has open files)
+- chmod: will fail if the file doesn't exist, the fd (file descriptor) is not valid or if there isn't enough kernel memory
+- kill: will fail if the pID doesn't exist or if there was an invalid signal
 
 TRAPS:
 
