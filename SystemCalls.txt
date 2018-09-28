@@ -8,7 +8,8 @@
   Arguments: const char* pathname, struct stat *buf
 
 
--kill:	is used to send a signal to a running process and terminate it
+-kill:	is used to send a signal to a running process and terminate it.
+	Each signal has a numeric value and an action associated to it(e.g. -9 ->SIGKILL: can't be ignored by a process
   Arguments: pid_t pid, int sig
 
 
